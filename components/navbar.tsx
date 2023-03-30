@@ -8,7 +8,7 @@ import 'react-phone-number-input/style.css';
 import OtpField from "react-otp-field";
 import Countdown from "react-countdown";
 import { useTimer } from "use-timer";
-// import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import {
   Tabs,
@@ -32,7 +32,7 @@ import MenuLanguage from "./auth-modal";
 // import MyModal from "./modals-comp";
 
 const Navbar = ({ data, brands_data, sessionServ }) => {
-  // const { data: session } = useSession()
+  const { data: session } = useSession()
 
   const [searchData, setData] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -103,9 +103,9 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
 
     if (!showDropdown) return;
     function handleClick(event) {
-      if (dropdown.current && !dropdown.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
+      // if (dropdown.current && !dropdown.current.contains(event.target)) {
+      //   setShowDropdown(false);
+      // }
     }
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
@@ -163,14 +163,14 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
   }
 
   function setFocus() {
-    document.getElementById("sm-searchbox").focus();
+    (document.getElementById("sm-searchbox") as HTMLInputElement).focus();
   }
 
   var i = 1;
 
   function shopByCatOnMouseOver() {
-    document.getElementById("BeautyCareele").classList.remove("hidden");
-    document.getElementById("BeautyCarebtn").classList.add("text-blue-400", "border-l-4", "border-blue-500", "bg-blue-100");
+    (document.getElementById("BeautyCareele") as HTMLInputElement).classList.remove("hidden");
+    (document.getElementById("BeautyCarebtn") as HTMLInputElement).classList.add("text-blue-400", "border-l-4", "border-blue-500", "bg-blue-100");
     i = 1;
   }
 
@@ -182,15 +182,15 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
       }
     }
     if (i === 1 && itemName == "BeautyCareele") {
-      document.getElementById("BeautyCarebtn").classList.remove("text-blue-400", "border-l-4", "border-blue-500", "bg-blue-100");
+      (document.getElementById("BeautyCarebtn") as HTMLInputElement).classList.remove("text-blue-400", "border-l-4", "border-blue-500", "bg-blue-100");
     }
     if (i === 1 && itemName != "BeautyCareele") {
-      document.getElementById("BeautyCareele").classList.add("hidden");
-      document.getElementById("BeautyCarebtn").classList.remove("text-blue-400", "border-l-4", "border-blue-500", "bg-blue-100");
-      document.getElementById(itemName).classList.remove("hidden");
+      (document.getElementById("BeautyCareele") as HTMLInputElement).classList.add("hidden");
+      (document.getElementById("BeautyCarebtn") as HTMLInputElement).classList.remove("text-blue-400", "border-l-4", "border-blue-500", "bg-blue-100");
+      (document.getElementById(itemName) as HTMLInputElement).classList.remove("hidden");
     }
     else {
-      document.getElementById(itemName).classList.remove("hidden");
+      (document.getElementById(itemName) as HTMLInputElement).classList.remove("hidden");
     }
     i++
   }
@@ -287,7 +287,7 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
   function isValidPhoneNoInput(SetOtpVisb) {
 
     if (SetOtpVisb) {
-      document.getElementById("loginOrSignup").classList.add("hidden")
+      (document.getElementById("loginOrSignup") as HTMLInputElement).classList.add("hidden")
       setOtpPageVisibility(true);
 
       setState('');
@@ -305,51 +305,51 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
       }
     }
     else {
-      document.getElementById("loginOrSignup").classList.remove("hidden")
+      (document.getElementById("loginOrSignup") as HTMLInputElement).classList.remove("hidden")
       setOtpPageVisibility(false);
       stopTimer()
     }
   }
 
-  // async function otpIsValid(otpValue) {
-  //   if (signInUsing === "Phone") {
-  //     await signIn('credentials', { phone: phoneNumberforOTP, code: otpValue, isPhone: "true", redirect: false })
-  //       .then(async ({ ok, error }) => {
-  //         if (ok) {
-  //           // setModalAction("authentication-modal", "close")
-  //           await refreshData().then(() => {
-  //             setaddNewAddress(true);
-  //           }
+  async function otpIsValid(otpValue) {
+    if (signInUsing === "Phone") {
+      await signIn('credentials', { phone: phoneNumberforOTP, code: otpValue, isPhone: "true", redirect: false })
+        .then(async ({ ok, error }) => {
+          if (ok) {
+            // setModalAction("authentication-modal", "close")
+            await refreshData().then(() => {
+              setaddNewAddress(true);
+            }
 
-  //           )
+            )
 
-  //         }
-  //         else {
-  //           console.log(error)
-  //           setnotValidOTPPageVisib(true)
-  //         }
-  //       })
-  //   }
-  //   else {
-  //     await signIn('credentials', { email: phoneNumberforOTP, code: otpValue, isPhone: "false", redirect: false })
-  //       .then(async ({ ok, error }) => {
-  //         if (ok) {
-  //           // setModalAction("authentication-modal", "close")
-  //           await refreshData().then(() => {
-  //             setaddNewAddress(true);
-  //           })
+          }
+          else {
+            console.log(error)
+            setnotValidOTPPageVisib(true)
+          }
+        })
+    }
+    else {
+      await signIn('credentials', { email: phoneNumberforOTP, code: otpValue, isPhone: "false", redirect: false })
+        .then(async ({ ok, error }) => {
+          if (ok) {
+            // setModalAction("authentication-modal", "close")
+            await refreshData().then(() => {
+              setaddNewAddress(true);
+            })
 
-  //         }
-  //         else {
-  //           console.log(error)
-  //           setnotValidOTPPageVisib(true)
-  //         }
-  //       })
+          }
+          else {
+            console.log(error)
+            setnotValidOTPPageVisib(true)
+          }
+        })
 
-  //   }
-  //   //for the address we use the same hook 
-  //   setPhoneNumberValidState(false)
-  // }
+    }
+    //for the address we use the same hook 
+    setPhoneNumberValidState(false)
+  }
 
   // function setModalAction(idOfModal:string, modalActions:string) {
   //   var $modalElement = document.getElementById(idOfModal) as HTMLElement;
@@ -390,13 +390,13 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
     for (let addBlock of addrssBlocks) {
       if (addBlock.classList.contains("!bg-blue-500")) {
         addBlock.classList.remove("!bg-blue-500", "!text-white")
-        if (addBlock.querySelector('svg').classList.contains("!fill-white")) {
-          addBlock.querySelector('svg').classList.remove("!fill-white")
+        if ((addBlock.querySelector('svg') as SVGSVGElement).classList.contains("!fill-white")) {
+          (addBlock.querySelector('svg') as SVGSVGElement).classList.remove("!fill-white")
           // addBlock.querySelector('svg').classList.add("hidden")
         }
       }
     }
-    let addressBlock = document.getElementById(eleId)
+    let addressBlock = (document.getElementById(eleId) as HTMLElement)
     addressBlock.classList.add("!bg-blue-500", "!text-white");
     document.getElementsByClassName(eleId)[0].classList.add("!fill-white")
     let indx = eleId.replace("addr", '')
@@ -463,9 +463,9 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
   const router = useRouter();
   // Call this function whenever you want to
   // refresh props!
-  // const refreshData = async () => {
-  //   router.replace(router.asPath);
-  // }
+  const refreshData = async () => {
+    router.replace(router.asPath);
+  }
   const formDatahandleChange = (e) => {
     debugger
     const { name, value } = e.target;
@@ -715,118 +715,118 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
                 <MenuLanguage countrySelect={countrySelect} />
 
               </Menu>
-              {/* {session ? <><a href="#" ref={dropdown} onClick={() => { setShowDropdown(!showDropdown) }} className=" flex-col md:hidden lg:flex hidden" id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown">
-                  <img src="https://cdn-icons-png.flaticon.com/512/309/309748.png?w=740t=st=1678711444~exp=1678712044~hmac=9fdd9608d210eeffcc5069fd9c6888bb3fcb3407e24160947ac7f3c7a85ca203" className="w-9 h-9 my-auto mx-auto" />
+              {session ? <><a href="#" ref={dropdown} onClick={() => { setShowDropdown(!showDropdown) }} className=" flex-col md:hidden lg:flex hidden" id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown">
+                <img src="https://cdn-icons-png.flaticon.com/512/309/309748.png?w=740t=st=1678711444~exp=1678712044~hmac=9fdd9608d210eeffcc5069fd9c6888bb3fcb3407e24160947ac7f3c7a85ca203" className="w-9 h-9 my-auto mx-auto" />
 
 
-                  <div className="text-[11px] text-center text-white">Account</div>
+                <div className="text-[11px] text-center text-white">Account</div>
 
-                </a>
-                  {showDropdown ?
-                    <div id="mega-menu-dropdown" className="hidden lg:flex mt-[70px] absolute z-10  w-auto  text-sm bg-gradient-to-r from-pink-100 to-teal-100 border  border-gray-100 shadow-md    ">
-                      <div className="p-4 pb-0 text-gray-900 md:pb-4 ">
-                        <ul className="space-y-4" aria-labelledby="mega-menu-dropdown-button">
+              </a>
+                {showDropdown ?
+                  <div id="mega-menu-dropdown" className="hidden lg:flex mt-[70px] absolute z-10  w-auto  text-sm bg-gradient-to-r from-pink-100 to-teal-100 border  border-gray-100 shadow-md    ">
+                    <div className="p-4 pb-0 text-gray-900 md:pb-4 ">
+                      <ul className="space-y-4" aria-labelledby="mega-menu-dropdown-button">
+                        <li>
+                          <a href="#" className=" text-lg text-gray-800  hover:text-blue-600  ">
+                            Signed in as <br /><span className="font-bold">{session.token.name}</span>
+                          </a>
+                        </li>
+                        {session.token.email ? <li>
+                          <a href="#" className="text-md  hover:text-blue-600  flex items-center gap-4">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-orange-300 ">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                            {(session.token.email).substring(0, 16) + '...'}
+                          </a>
+
+                        </li> : ""}
+                        {session.token.phone ?
                           <li>
-                            <a href="#" className=" text-lg text-gray-800  hover:text-blue-600  ">
-                              Signed in as <br /><span className="font-bold">{session.token.name}</span>
-                            </a>
-                          </li> */}
-              {/* {session.token.email ? <li>
                             <a href="#" className="text-md  hover:text-blue-600  flex items-center gap-4">
 
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-orange-300 ">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-green-600 text-green-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                               </svg>
-                              {(session.token.email).substring(0, 16) + '...'}
+
+                              {session.token.phone}
                             </a>
 
-                          </li> : ""} */}
-              {/* {session.token.phone ?
-                            <li>
-                              <a href="#" className="text-md  hover:text-blue-600  flex items-center gap-4">
+                          </li> : ""}
 
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-green-600 text-green-600">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                                </svg>
-
-                                {session.token.phone}
-                              </a>
-
-                            </li> : ""} */}
-
-              {/* <li>
-                            <a href="#" className="  hover:text-blue-600  flex items-center gap-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-blue-300">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                              </svg>
-                              Dashboard
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#" className="  hover:text-blue-600   flex items-center gap-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-gray-300">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                              </svg>
-                              Orders
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#" className=" hover:text-blue-600  flex items-center gap-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.0" stroke="currentColor" className="w-6 h-6 text-blue-600 ">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                              </svg>
-                              Return Options
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#" className="  hover:text-blue-600  flex items-center gap-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-orange-200">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              Wallet
-                              <span className="bg-indigo-600 px-2 rounded-lg text-white">$ {session.token.wallet_balance}</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#" className=" hover:text-blue-600  flex items-center gap-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-green-300 text-gray-800">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
-                              </svg>
-                              Appointments
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#" className=" hover:text-blue-600  flex items-center gap-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-gray-300 ">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-                              </svg>
-                              Chat with Us
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#" onClick={(e) => {
-                              e.preventDefault()
-                              signOut()
-                              refreshData()
-                            }} className=" hover:text-blue-600  flex items-center gap-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" className="w-6 h-6 text-red-500">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
-                              </svg>
-                              Sign Out
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                        <li>
+                          <a href="#" className="  hover:text-blue-600  flex items-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-blue-300">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                            </svg>
+                            Dashboard
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="  hover:text-blue-600   flex items-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-gray-300">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                            </svg>
+                            Orders
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className=" hover:text-blue-600  flex items-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.0" stroke="currentColor" className="w-6 h-6 text-blue-600 ">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                            </svg>
+                            Return Options
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="  hover:text-blue-600  flex items-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-orange-200">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Wallet
+                            <span className="bg-indigo-600 px-2 rounded-lg text-white">$ {session.token.wallet_balance}</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className=" hover:text-blue-600  flex items-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-green-300 text-gray-800">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
+                            </svg>
+                            Appointments
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className=" hover:text-blue-600  flex items-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 fill-gray-300 ">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                            </svg>
+                            Chat with Us
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" onClick={(e) => {
+                            e.preventDefault()
+                            signOut()
+                            refreshData()
+                          }} className=" hover:text-blue-600  flex items-center gap-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" className="w-6 h-6 text-red-500">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
+                            </svg>
+                            Sign Out
+                          </a>
+                        </li>
+                      </ul>
                     </div>
-                    : ""}</> : <a href="#" className=" flex-col md:hidden lg:flex hidden" onClick={() => { setLocationModal(true) }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                    stroke="currentColor" className=" my-auto text-white w-8 h-8 mx-auto">
-                    <path strokeLinecap="round" strokeLinejoin="round"
-                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                  </svg>
+                  </div>
+                  : ""}</> : <a href="#" className=" flex-col md:hidden lg:flex hidden" onClick={() => { setLocationModal(true) }}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                  stroke="currentColor" className=" my-auto text-white w-8 h-8 mx-auto">
+                  <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
 
-                  <div className="text-[11px] text-center text-white">Account</div>
-                </a>} */}
+                <div className="text-[11px] text-center text-white">Account</div>
+              </a>}
 
               <a href="#" className="flex flex-col md:hidden lg:flex hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
@@ -935,7 +935,7 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
                   </Swiper>
                 </div>
                 {data.data.map((item) => (
-                  <div className="w-full hidden list-elements" id={(item.name + "ele").replace(/\s/g, '')} onMouseOver={() => { document.getElementById((item.name + "btn").replace(/\s/g, '')).classList.add("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }} onMouseLeave={() => { document.getElementById((item.name + "btn").replace(/\s/g, '')).classList.remove("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }}>
+                  <div className="w-full hidden list-elements" id={(item.name + "ele").replace(/\s/g, '')} onMouseOver={() => { (document.getElementById((item.name + "btn").replace(/\s/g, '')) as HTMLElement).classList.add("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }} onMouseLeave={() => { document.getElementById((item.name + "btn").replace(/\s/g, '')).classList.remove("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }}>
 
                     <ul className={"right-0 u-list bg-white rounded-sm top-0 hover-menu  h-[35rem] ul-list-hover w-full " + (item.name + "ele").replace(/\s/g, '')} >
 
@@ -1357,7 +1357,7 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
                         <div className="loading-img"></div>
                         <div className="h-10 w-3/4">
                           <div className="mb-2 h-3 w-full bg-gray-200 "></div>
-                          <div className="mb-4 h-5 w-full bg-gray-200 "></div>
+                          <div className="mb-4 h-5 w-3/4 bg-gray-200 "></div>
                         </div>
                         <span className="sr-only">Loading...</span>
                       </div>

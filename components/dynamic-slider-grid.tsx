@@ -24,7 +24,7 @@ const DynamicSliderGrid = ({ data, isDesktop, isMobile }) => {
             : ""}
         <Swiper
             slidesPerView={isDesktop ? data.settings.desktop.column : data.settings.mobile.column}
-            pagination={data.settings.show_pagination === true ? true : { dynamicBullets: true }}
+            pagination={data.settings.show_pagination === true ? { dynamicBullets: true } : false}
             // onPaginationHide={data.settings.show_pagination === true}
             navigation={data.settings.navigation ? true : false}
             modules={[Pagination, Navigation, Autoplay]}

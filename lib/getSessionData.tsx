@@ -1,7 +1,5 @@
 import { getSession } from 'next-auth/react'
 export default async function getSessionData(sessionData) {
-
-
     var userAddrData = {
         data: {
             addresses: []
