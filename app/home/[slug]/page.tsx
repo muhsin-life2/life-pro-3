@@ -45,7 +45,7 @@ export async function getStaticParams() {
 }
 
 
-export default async function SinglePageContent({params}) {
+export default async function SinglePageContent({params}: { params: { slug: string }}) {
     // console.log(params);
     
     const data_res = await getSinglePageData(params.slug)
