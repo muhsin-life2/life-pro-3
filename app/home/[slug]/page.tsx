@@ -3,7 +3,6 @@
 import PageStructure from "../../../components/page-structure";
 import getHomePageData from "../../../lib/getHomePageData";
 import getProductsData from "../../../lib/getProductsData";
-import getSinglePageData from "../../../lib/getSinglePageData";
 
 
 // async function getStaticParams(slug) {
@@ -19,35 +18,44 @@ import getSinglePageData from "../../../lib/getSinglePageData";
 
 // export default SinglePageContent;
 
-export async function getStaticParams() {
-    const res = await fetch("https://prodapp.lifepharmacy.com/api/cms/page/home")
-    const data = await res.json();
-    const home_page_data = data.data.content;
-    // var allPaths = null
-    const allPaths = home_page_data.filter(contObj => (contObj.section_type === "dynamic_grid" || "dynamic_slider_grid") && contObj.section_data_array && contObj.section_data_array.length != 0
-    ).filter(contObj => contObj.section_data_array.some(secDataArray => secDataArray.slug != null))
-    var slugs = []
-    allPaths.map(secData =>
-        secData.section_data_array.map(secDataArray => (
-            secDataArray.slug != null &&
-            slugs.push(secDataArray.slug)
-        ))
-    )
-    var filt_paths = [...new Set(slugs)]
+export async function generateStaticParams() {
+    // const res = await fetch("https://prodapp.lifepharmacy.com/api/cms/page/home")
+    // const data = await res.json();
+    // const home_page_data = data.data.content;
+    // // var allPaths = null
+    // const allPaths = home_page_data.filter(contObj => (contObj.section_type === "dynamic_grid" || "dynamic_slider_grid") && contObj.section_data_array && contObj.section_data_array.length != 0
+    // ).filter(contObj => contObj.section_data_array.some(secDataArray => secDataArray.slug != null))
+    // var slugs = []
+    // allPaths.map(secData =>
+    //     secData.section_data_array.map(secDataArray => (
+    //         secDataArray.slug != null &&
+    //         slugs.push(secDataArray.slug)
+    //     ))
+    // )
+    // var filt_paths = [...new Set(slugs)]
 
-    // console.log(filt_paths);
+    // console.log(home_page_data);
 
-    return filt_paths.map(slug => {
-        return {
-            home: slug.toString()
-        };
-    });
+
+    return []
+
+
+
+
 }
 
-
-export default async function SinglePageContent({params}: { params?: { slug: string }}) {
+async function getSinglePageData(params) {
     // console.log(params);
-    
+
+    const res = await fetch(`https://prodapp.lifepharmacy.com/api/cms/page/${params}`)
+
+    if (!res.ok) throw new Error('failed to fetch data')
+
+    return res.json()
+}
+
+export default async function SinglePageContent({ params }) {
+
     const data_res = await getSinglePageData(params.slug)
     const data = await data_res
 
