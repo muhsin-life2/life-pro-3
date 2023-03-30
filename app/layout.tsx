@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   const brandsData = getBrandsData()
   const brands_data = await brandsData
-  const session = await getServerSession(NextAuth())
+  const session = await getSession()
   const session_data = getSessionData(session)
 
   return (
