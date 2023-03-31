@@ -8,7 +8,7 @@ import Products from "./products";
 
 const PageStructure = ({ data, pro_data }) => {
 
-    const [domLoaded, setDomLoaded] = useState(null);
+    const [domLoaded, setDomLoaded] = useState(false);
     const [width, height] = useWindowSize();
     // const [proDatas, setProData] = useState(pro_data);
 
