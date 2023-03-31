@@ -42,7 +42,8 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
             title:"",
             images: {
               featured_image: "https://www.life-me.com/wp-content/themes/LifePharmacy/assets/images/life-pharmacy-logo-white.png"
-            }
+            },
+            query: ""
           }
         ]
       },
