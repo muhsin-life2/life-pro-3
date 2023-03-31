@@ -259,13 +259,14 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    var raw
     if (type === "phone") {
-      var raw = JSON.stringify({
+      raw = JSON.stringify({
         "phone": pHNumber
       });
     }
     else if (type === "email") {
-      var raw = JSON.stringify({
+      raw = JSON.stringify({
         "email": pHNumber
       });
     }
