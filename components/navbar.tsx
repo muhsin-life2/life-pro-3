@@ -717,7 +717,7 @@ return (
               <MenuLanguage countrySelect={countrySelect} />
 
             </Menu>
-            {session ? <><a href="#" ref={dropdown} onClick={() => { setShowDropdown(!showDropdown) }} className=" flex-col md:hidden lg:flex hidden" id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown">
+            {/* {session ? <><a href="#" ref={dropdown} onClick={() => { setShowDropdown(!showDropdown) }} className=" flex-col md:hidden lg:flex hidden" id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown">
               <img src="https://cdn-icons-png.flaticon.com/512/309/309748.png?w=740t=st=1678711444~exp=1678712044~hmac=9fdd9608d210eeffcc5069fd9c6888bb3fcb3407e24160947ac7f3c7a85ca203" className="w-9 h-9 my-auto mx-auto" />
 
 
@@ -828,7 +828,7 @@ return (
               </svg>
 
               <div className="text-[11px] text-center text-white">Account</div>
-            </a>}
+            </a>} */}
 
             <a href="#" className="flex flex-col md:hidden lg:flex hidden">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
@@ -937,7 +937,7 @@ return (
                 </Swiper>
               </div>
               {data.data.map((item) => (
-                <div className="w-full hidden list-elements" id={(item.name + "ele").replace(/\s/g, '')} onMouseOver={() => { (document.getElementById((item.name + "btn").replace(/\s/g, '')) as HTMLElement).classList.add("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }} onMouseLeave={() => { document.getElementById((item.name + "btn").replace(/\s/g, '')).classList.remove("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }}>
+                <div className="w-full hidden list-elements" id={(item.name + "ele").replace(/\s/g, '')} onMouseOver={() => { (document.getElementById((item.name + "btn").replace(/\s/g, '')) as HTMLElement).classList.add("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }} onMouseLeave={() => { ((document.getElementById((item.name + "btn").replace(/\s/g, '') )as HTMLElement)).classList.remove("text-blue-500", "border-l-4", "border-blue-500", "bg-blue-100") }}>
 
                   <ul className={"right-0 u-list bg-white rounded-sm top-0 hover-menu  h-[35rem] ul-list-hover w-full " + (item.name + "ele").replace(/\s/g, '')} >
 
