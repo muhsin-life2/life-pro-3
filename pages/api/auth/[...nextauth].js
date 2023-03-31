@@ -12,7 +12,7 @@ export default NextAuth({
         code: { label: 'Password', type: 'password' },
         isPhone: { label: 'isPhone', type: 'text' }
       },
-      authorize: async (credentials: any) => {
+      authorize: async (credentials) => {
         var payload = {};
         if (credentials.isPhone === "true") {
           payload = {
@@ -56,7 +56,7 @@ export default NextAuth({
     //   return true
     // },
 
-    async jwt({ user, token }: { user: any, token: any }) {
+    async jwt({ user, token }) {
 
       // token.userRole = "regusr"
       // token = user
