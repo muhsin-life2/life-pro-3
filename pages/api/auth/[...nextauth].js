@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
+import { Session, User } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
+import { AdapterUser } from 'next-auth/adapters';
 export default NextAuth({
 
   providers: [
@@ -12,7 +14,7 @@ export default NextAuth({
         code: { label: 'Password', type: 'password' },
         isPhone: { label: 'isPhone', type: 'text' }
       },
-      authorize: async (credentials) => {
+      authorize: async (credentials: any) => {
         var payload = {};
         if (credentials.isPhone === "true") {
           payload = {
@@ -56,7 +58,7 @@ export default NextAuth({
     //   return true
     // },
 
-    async jwt({ user, token }) {
+    async jwt({ user, token }: { user: any, token: any }) {
 
       // token.userRole = "regusr"
       // token = user
@@ -67,9 +69,9 @@ export default NextAuth({
       }
       return token
     },
-    async session(session, token, user) {
-      console.log(session);
-      return session;
+    async session(params: { session: Session; user: User | AdapterUser; token: JWT; }): Promise<Session> {
+      console.log(params.session);
+      return params.session;
     },
   },
 
