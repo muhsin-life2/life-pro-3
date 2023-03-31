@@ -36,7 +36,7 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
 
   const [searchData, setData] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [signInUsing, signInSet] = useState(null);
+  const [signInUsing, signInSet] = useState("");
   const [isPhoneNumberValid, setPhoneNumberValidState] = useState(false);
   const [isEmailValid, setEmailValidState] = useState(false);
   const [state, setState] = useState('');
