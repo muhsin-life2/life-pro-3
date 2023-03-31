@@ -39,7 +39,7 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
       {
         hits: [
           {
-            title:"",
+            title: "",
             images: {
               featured_image: "https://www.life-me.com/wp-content/themes/LifePharmacy/assets/images/life-pharmacy-logo-white.png"
             },
@@ -583,10 +583,10 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
 
 
                   <div className="shadow-xl py-1 pt-4 px-3 lg-screen-searchsuggestion-lg scale-100 hidden absolute top-13  right-0 left-0  bg-white border-gray-200 overflow-auto search-suggestion-height rounded-t-0 rounded-b-md ">
-                    {searchData ?
+                    {searchData.results[1] ?
                       <>
                         <div className="mb-5 group-search">
-                          {searchData.results[1].hits[0] ?
+                          {searchData?.results[1]?.hits[0] ?
                             <>
                               <h5 className="text-sky-500 text-xs ">SUGGESTIONS</h5>
                               <div className="flex my-2 flex-wrap text-[13px] text-gray-700 group-search">
@@ -1334,10 +1334,10 @@ const Navbar = ({ data, brands_data, sessionServ }) => {
 
 
             <div className="shadow-xl pt-6 px-4 lg-screen-searchsuggestion-sm scale-100 hidden absolute top-15  right-0 left-0  bg-white  overflow-auto  rounded-t-0 rounded-b-md ">
-              {searchData.results.length > 0 ?
+              {searchData.results[1] ?
                 <>
                   <div className="mb-5 group-search">
-                    {searchData.results[1].hits[0] ?
+                    {searchData.results[1]?.hits[0] ?
                       <>
                         <h5 className="text-sky-500 text-xs ">SUGGESTIONS</h5>
                         <div className="flex my-2 flex-wrap text-[13px] text-gray-700 group-search">
